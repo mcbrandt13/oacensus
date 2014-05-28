@@ -23,31 +23,26 @@ class OpenAIRE(ArticleScraper):
         pass
 
     def process(self):
-        articles = Article.select()
-        for [article in articles if article.doi]:
-            response = requests.post(self.setting('base-url'), data = json.dumps(article.doi))
-            openaire_response = ET.fromstring(response.text)
+        articles = Article.select().where(~(Article.doi >> None))
+        for article in articles:
+            response = requests.get(self.setting('base-url'), params = {'doi' : article.doi})
+            openaire_response = ET.fromstring(response.text.encode('utf-8'))
 
-            instances = openaire_response.iterfind('instance')
-            for inst in instances if instances:
+            for inst in openaire_response.iter('instance'):
                 reponame = inst.find('hostedby').get('name')
-                status = inst.find('license').get('classname')
+                repository = Repository.find_or_create_by_name({'name':reponame,
+                                                                'source': 'openaire',
+                                                                'log' : 'Created by openaire plugin'})
+                status = inst.find('licence').get('classname')
                 ftr = {'Open Access' : True,
                        'Closed Access' : False,
                        'Embargo' : False,
                        'Restricted' : False}.get(status, False)
 
                 url = inst.find('webresource').find('url').text
-                Instance.create(article=article
-                                repository=self.create_or_return_repository(reponame),
+                Instance.create(article = article,
+                                repository = repository,
                                 free_to_read = ftr,
                                 info_url=url,
                                 source=self.db_source(),
-                                log=self.db_source())
-
-    def create_or_return_repository(self, reponame):
-        repo = Repository.select().where(Repository.name == reponame)
-        if repo:
-            return repo
-        else:
-            Repository.create(name = reponame)
+                                log='OpenAIRE response obtained from %s repository' % reponame)

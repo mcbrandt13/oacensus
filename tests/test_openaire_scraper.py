@@ -1,11 +1,10 @@
 __author__ = 'cneylon'
 from oacensus.commands import defaults
+from oacensus.models import Article
 from oacensus.scraper import Scraper
 from oacensus.models import Repository
-from oacensus.models import Article
 from oacensus.models import Instance
 from tests.utils import setup_db
-
 setup_db()
 
 test_doi_open = '10.1371/journal.pone.0001164'
@@ -34,7 +33,7 @@ def test_openaire_scraper():
     # Does the scraper run properly?
     # Are the relevant repositories created?
     # Are all DOIs that should be returned?
-    # Do all returned DOIs provide the 'correct' answer?
+    # TODO: Do all returned DOIs provide the 'correct' answer?
 
     # Scraper runs successfully
     scraper = Scraper.create_instance("openaire")
@@ -53,11 +52,15 @@ def test_openaire_scraper():
 
     # All appropriate DOI's returned
     for d in dois[0:4]:
-        a = Article.select().where(Article.doi == d)
-        assert len(a.instances) > 0
-        assert a.instance.free_to_read is not None
+        a = Article.select().where(Article.doi == d)[0]
+        instances = [inst for inst in a.instances]
+        assert len(instances) > 0
+        for inst in instances:
+            assert inst.free_to_read is not None
 
     # Nonexistent doi not returned
-    a = Article.select().where(Article.doi == test_doi_no_response)
-    assert a.instances is None
+    a = Article.select().where(Article.doi == test_doi_no_response)[0]
+    instances = [inst for inst in a.instances]
+    assert len(instances) == 0
+
 
