@@ -33,6 +33,8 @@ class OpenAIRE(ArticleScraper):
                 repository = Repository.find_or_create_by_name({'name':reponame,
                                                                 'source': 'openaire',
                                                                 'log' : 'Created by openaire plugin'})
+
+
                 status = inst.find('licence').get('classname')
                 ftr = {'Open Access' : True,
                        'Closed Access' : False,

@@ -63,4 +63,20 @@ def test_openaire_scraper():
     instances = [inst for inst in a.instances]
     assert len(instances) == 0
 
+    # Test correct answer for 'open' case
+    a = Article.select().where(Article.doi == test_doi_open)[0]
+    instances = [inst for inst in a.instances]
+    for inst in instances:
+        assert inst.free_to_read
+
+    # Test correct answer for non-open cases
+    for doi in [test_doi_restricted, test_doi_closed, test_doi_embargoed]:
+        a = Article.select().where(Article.doi == doi)[0]
+        instances = [inst for inst in a.instances]
+        for inst in instances:
+            print inst.repository.name, inst.free_to_read
+            assert not inst.free_to_read
+
+
+
 
