@@ -1,0 +1,33 @@
+# Load standard licenses.
+- licenses
+
+# Create articles from xlsx file.
+- excelarticles: {
+    location: "wellcome20.xlsx",
+    list-name: Wellcome 2012-13,
+    source: wellcome,
+    period: 2012-13,
+    column-mapping : {
+        publisher : publisher.name,
+        journal : journal.title,
+        title : title,
+        doi : doi
+        }
+    }
+
+# Get publication date and standardize journal title (based on article DOI).
+- crossref
+
+# Get ISSNs based on journal titles.
+- crossrefjournals
+
+# Get openness information from OAG (based on article DOI).
+- oag
+
+# Check pubmed, get external identifiers including PMC (based on article DOI).
+- pubmed-update-repositories
+
+# Look up journal info in DOAJ
+- doaj
+
+# TODO look up license in PMC
