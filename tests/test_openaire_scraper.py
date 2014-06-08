@@ -33,7 +33,6 @@ def test_openaire_scraper():
     # Does the scraper run properly?
     # Are the relevant repositories created?
     # Are all DOIs that should be returned?
-    # TODO: Do all returned DOIs provide the 'correct' answer?
 
     # Scraper runs successfully
     scraper = Scraper.create_instance("openaire")
