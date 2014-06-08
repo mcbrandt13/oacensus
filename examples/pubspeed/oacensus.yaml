@@ -1,0 +1,11 @@
+# Load standard licenses.
+- licenses
+
+# Get articles from GTR
+- pubmed:
+    search: ("PLoS biology"[Journal]) AND ("2013-04-01"[Date - Publication] : "3000"[Date - Publication])
+# Get ISSNs based on journal titles.
+- crossrefjournals
+
+# Look up journal info in DOAJ
+- doaj

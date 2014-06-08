@@ -222,6 +222,10 @@ class Article(ModelBase):
         help_text="Digital object identifier for article.")
     date_published = CharField(null=True,
         help_text="When article was published, in YYYY(-MM(-DD)) format.")
+    date_submitted = CharField(null=True,
+        help_text="When article was submitted for peer review, in YYYY(-MM(-DD)) format.")
+    date_accepted = CharField(null=True,
+        help_text="When article was accepted for publication, in YYYY(-MM(-DD)) format.")
     period = CharField(
         help_text="Name of date-based period in which this article was scraped.")
     url = CharField(null=True,

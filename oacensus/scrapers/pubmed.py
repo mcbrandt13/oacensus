@@ -372,6 +372,9 @@ class Pubmed(NCBIArticles):
                     article_entry = medline_citation.find("Article")
                     journal_entry = article_entry.find("Journal")
 
+                    pubmed_data = pubmed_article.find("PubmedData")
+                    pubmed_history = pubmed_data.find("History")
+
                     # Parse journal info
                     journal_title = journal_entry.findtext("Title")
                     journal_iso = journal_entry.findtext("ISOAbbreviation")
@@ -404,6 +407,19 @@ class Pubmed(NCBIArticles):
                     elif article_date_entry is not None:
                         date_published = self.parse_date(article_date_entry)
 
+                    # Attempt to parse submission and acceptance date
+                    submitted_date_entry = pubmed_history.find("PubMedPubDate[@PubStatus='received']")
+                    if submitted_date_entry is not None:
+                        date_submitted = self.parse_date(submitted_date_entry)
+                    else:
+                        date_submitted = 'Unknown'
+
+                    accepted_date_entry = pubmed_history.find("PubMedPubDate[@PubStatus='accepted']")
+                    if accepted_date_entry is not None:
+                        date_accepted = self.parse_date(accepted_date_entry)
+                    else:
+                        date_accepted = 'Unknown'
+
                     doi_entry = article_entry.find("ELocationID")
 
                     doi = None
@@ -433,6 +449,8 @@ class Pubmed(NCBIArticles):
                             journal = journal,
                             period = start_date.strftime("%Y-%m"),
                             date_published = date_published,
+                            date_submitted = date_submitted,
+                            date_accepted = date_accepted,
                             source = self.db_source(),
                             log = self.db_source())
 
