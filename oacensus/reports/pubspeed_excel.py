@@ -10,12 +10,12 @@ import xlwt
 # DOI, title, publisher, journal, ISSN, OAG license, In DOAJ, DOAJ license, in PMC, PMCID, licenses str
 
 
-class OAExcel(Report):
+class PubspeedExcel(Report):
     """
     An excel-based openness report.
     """
 
-    aliases = ['article-excel']
+    aliases = ['pubspeed-excel']
 
     _settings = {
             'filename' : ("Name of file to write excel dump to.", "pubspeed.xls"),
