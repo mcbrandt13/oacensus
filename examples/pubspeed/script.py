@@ -45,8 +45,14 @@ search_date_string = ' AND ("2013-01-01"[Date - Publication] : "2013-01-10"[Date
 scraper = Scraper.create_instance('pubmed')
 scraper.update_settings({'search' : search_term,
                           'start-period' : '2013-01',
-                          'end-period' : '2013-2'})
+                          'end-period' : '2013-02'})
 scraper.run()
+
+crossref = Scraper.create_instance('crossref')
+crossref.run()
+
+doaj = Scraper.create_instance('doaj')
+doaj.run()
 
 report = Report.PubspeedExcel()
 report.initialize_settings()

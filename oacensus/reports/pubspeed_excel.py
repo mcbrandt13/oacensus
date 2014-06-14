@@ -23,7 +23,8 @@ class PubspeedExcel(Report):
             'date-format-string' : ( "Excel style date format string.", "D-MMM-YYYY"),
             "fields" : ("Fields to include in report.", [
                 "doi", "title", "date_published",
-                "date_submitted", "date_accepted"
+                "date_submitted", "date_accepted",
+                "journal.title", "journal.issn", "journal.in_doaj"
 
                 ])
             }

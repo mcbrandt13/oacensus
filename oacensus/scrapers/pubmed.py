@@ -402,10 +402,10 @@ class Pubmed(NCBIArticles):
                     journal_pubdate_entry = journal_entry.find("JournalIssue").find("PubDate")
                     article_date_entry = article_entry.find("ArticleDate")
 
-                    if journal_pubdate_entry is not None:
-                        date_published = self.parse_date(journal_pubdate_entry)
-                    elif article_date_entry is not None:
+                    if article_date_entry is not None:
                         date_published = self.parse_date(article_date_entry)
+                    elif journal_pubdate_entry is not None:
+                        date_published = self.parse_date(journal_pubdate_entry)
 
                     # Attempt to parse submission and acceptance date
                     submitted_date_entry = pubmed_history.find("PubMedPubDate[@PubStatus='received']")
