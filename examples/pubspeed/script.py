@@ -12,7 +12,6 @@ JOURNALS = ["Journal of virology",
             "Proceedings of the National Academy of Sciences of the United States of America",
             "Genes & development",
             "Bioinformatics",
-            "PLoS one",
             "Cell",
             "Science (New York, N.Y.)",
             "Cell host & microbe",
@@ -23,13 +22,9 @@ JOURNALS = ["Journal of virology",
             "The Journal of infectious diseases",
             "Nature medicine",
             "Genome research",
-            "PLoS biology",
-            "PLoS medicine",
-            "PLoS pathogens",
             "BMC infectious diseases",
             "PLoS genetics",
             "BMC public health",
-            "PLoS computational biology",
             "Nature cell biology",
             "The American journal of tropical medicine and hygiene",
             "PeerJ",
@@ -43,9 +38,9 @@ search_term = "(" + " OR ".join(['("%s"[Journal])' % title for title in JOURNALS
 search_date_string = ' AND ("2013-01-01"[Date - Publication] : "2013-01-10"[Date - Publication])'
 
 scraper = Scraper.create_instance('pubmed')
-scraper.update_settings({'search' : search_term,
+scraper.update_settings({'search' : search_term + search_date_string,
                           'start-period' : '2013-01',
-                          'end-period' : '2013-02'})
+                          'end-period' : '2013-01'})
 scraper.run()
 
 crossref = Scraper.create_instance('crossref')
