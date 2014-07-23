@@ -1,17 +1,17 @@
 # Load standard licenses.
-- licenses
+#- licenses
 
 # Get articles from Pubmed
 - pubmed:
-    search: '("PLoS biology"[Journal]) OR ("PeerJ"[Journal]) OR ("Cell"[Journal])'
-    start-period : 2013-11
-    end-period : 2013-12
+    search: '("PLoS one"[Journal]) AND ("2012/01/01"[EDAT] : "2012/06/01"[EDAT])'
+    start-period : 2012-01
+    end-period : 2012-06
 
 # Get publication date and standardize journal title (based on article DOI).
-- crossref
+#- crossref
 
 # Get ISSNs based on journal titles.
-- crossrefjournals
+#- crossrefjournals
 
 # Look up journal info in DOAJ
-- doaj
+#- doaj

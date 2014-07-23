@@ -181,7 +181,10 @@ class NCBI(Scraper):
 
             if year is not None:
                 datestring = '%s %s %s' % (year, month, day)
-                date = dateutil.parser.parse(datestring)
+                try:
+                	date = dateutil.parser.parse(datestring)
+                except ValueError:
+                	return "Unknown"
 
                 if month_is_none:
                     return date.strftime("%Y")
@@ -416,7 +419,7 @@ class Pubmed(NCBIArticles):
 
                     accepted_date_entry = pubmed_history.find("PubMedPubDate[@PubStatus='accepted']")
                     if accepted_date_entry is not None:
-                        date_accepted = self.parse_date(accepted_date_entry)
+                    	date_accepted = self.parse_date(accepted_date_entry)
                     else:
                         date_accepted = 'Unknown'
 
