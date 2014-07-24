@@ -7,9 +7,6 @@ import inspect
 import os
 import xlwt
 
-# DOI, title, publisher, journal, ISSN, OAG license, In DOAJ, DOAJ license, in PMC, PMCID, licenses str
-
-
 class PubspeedExcel(Report):
     """
     An excel-based openness report.
@@ -23,9 +20,8 @@ class PubspeedExcel(Report):
             'date-format-string' : ( "Excel style date format string.", "D-MMM-YYYY"),
             "fields" : ("Fields to include in report.", [
                 "doi", "title", "date_published",
-                "date_submitted", "date_accepted",
-                "journal.title", "journal.issn", "journal.in_doaj"
-
+                "date_submitted", "date_accepted", "date_aheadofprint",
+                "journal.title", "journal.issn"
                 ])
             }
 

@@ -122,7 +122,7 @@ class NCBI(Scraper):
 
         return (count, web_env, query_key)
 
-    def fetch_batch(self, i, retstart, retmax, web_env, query_key, start_date=None, batch_prefix=None):
+    def fetch_batch(self, i, retstart, retmax, web_env, query_key, start_date=None, end_date=None, batch_prefix=None):
         self.print_progress("waiting requested delay time...")
         time.sleep(self.setting('delay'))
         msg = "fetching values %s through %s..." % (retstart, retstart+retmax-1)
@@ -135,6 +135,14 @@ class NCBI(Scraper):
                 'usehistory' : 'y',
                 'retmode' : 'xml'
                 }
+
+        if start_date and end_date:
+            params.update({
+                'mindate' : start_date.strftime("%Y/%m/%d"),
+                'maxdate' : end_date.strftime("%Y/%m/%d") # TODO is this right?
+                })
+        elif start_date or end_date:
+            raise Exception("Both start and end date must be provided if either is.")
 
         result = requests.get(
                 self.fetch_url(),
@@ -158,7 +166,7 @@ class NCBI(Scraper):
         retmax = self.setting('ret-max')
 
         while retstart < count:
-            self.fetch_batch(i, retstart, retmax, web_env, query_key, start_date)
+            self.fetch_batch(i, retstart, retmax, web_env, query_key, start_date, end_date)
             retstart += retmax
             i += 1
 
@@ -423,6 +431,12 @@ class Pubmed(NCBIArticles):
                     else:
                         date_accepted = 'Unknown'
 
+                    aheadofprint_date_entry = pubmed_history.find("PubMedPubDate[@PubStatus='aheadofprint']")
+                    if aheadofprint_date_entry is not None:
+                    	date_aheadofprint = self.parse_date(aheadofprint_date_entry)
+                    else:
+                        date_aheadofprint = 'Unknown'
+
                     doi_entry = article_entry.find("ELocationID")
 
                     doi = None
@@ -446,7 +460,22 @@ class Pubmed(NCBIArticles):
 
                     assert title is not None
 
-                    article = Article.create(
+					# TODO Check if downstream issues created here
+                    if doi is not None:
+                        article = Article.create_or_update_by_doi({
+                            'doi' : doi,
+                            'title' : title,
+                            'journal' : journal,
+                            'period' : start_date.strftime("%Y-%m"),
+                            'date_published' : date_published,
+                            'date_submitted' : date_submitted,
+                            'date_accepted' : date_accepted,
+                            'date_aheadofprint' : date_aheadofprint,
+                            'source' : self.db_source(),
+                            'log' : self.db_source()})
+                            
+                    else:
+                    	article = Article.create(
                             title = title,
                             doi = doi,
                             journal = journal,
@@ -456,7 +485,7 @@ class Pubmed(NCBIArticles):
                             date_accepted = date_accepted,
                             source = self.db_source(),
                             log = self.db_source())
-
+                    
                     if nihm_id is not None:
                         Instance.create(
                                 article=article,
