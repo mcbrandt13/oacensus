@@ -97,7 +97,17 @@ class NCBI(Scraper):
                 'retMax' : self.setting('initial-ret-max')
                 }
 
+        
         if start_date and end_date:
+            # There is a bug in Pubmed searches that start on Jan 1. As nothing should
+            # be published on Jan 1 we can change the start date to Jan 2.
+            if start_date.month == 1 & start_date.day == 1:
+                start_date = start_date.replace(day=2)
+            if end_date.month == 1 & start_date.day == 1:
+                end_date = end_date.replace(year = end_date.year-1,
+                                                month = 12,
+                                                day=31)
+
             params.update({
                 'mindate' : start_date.strftime("%Y/%m/%d"),
                 'maxdate' : end_date.strftime("%Y/%m/%d") # TODO is this right?
@@ -190,9 +200,9 @@ class NCBI(Scraper):
             if year is not None:
                 datestring = '%s %s %s' % (year, month, day)
                 try:
-                	date = dateutil.parser.parse(datestring)
+                    date = dateutil.parser.parse(datestring)
                 except ValueError:
-                	return "Unknown"
+                    return "Unknown"
 
                 if month_is_none:
                     return date.strftime("%Y")
@@ -427,13 +437,13 @@ class Pubmed(NCBIArticles):
 
                     accepted_date_entry = pubmed_history.find("PubMedPubDate[@PubStatus='accepted']")
                     if accepted_date_entry is not None:
-                    	date_accepted = self.parse_date(accepted_date_entry)
+                        date_accepted = self.parse_date(accepted_date_entry)
                     else:
                         date_accepted = 'Unknown'
 
                     aheadofprint_date_entry = pubmed_history.find("PubMedPubDate[@PubStatus='aheadofprint']")
                     if aheadofprint_date_entry is not None:
-                    	date_aheadofprint = self.parse_date(aheadofprint_date_entry)
+                        date_aheadofprint = self.parse_date(aheadofprint_date_entry)
                     else:
                         date_aheadofprint = 'Unknown'
 
@@ -460,7 +470,7 @@ class Pubmed(NCBIArticles):
 
                     assert title is not None
 
-					# TODO Check if downstream issues created here
+                    # TODO Check if downstream issues created here
                     if doi is not None:
                         article = Article.create_or_update_by_doi({
                             'doi' : doi,
@@ -475,7 +485,7 @@ class Pubmed(NCBIArticles):
                             'log' : self.db_source()})
                             
                     else:
-                    	article = Article.create(
+                        article = Article.create(
                             title = title,
                             doi = doi,
                             journal = journal,
