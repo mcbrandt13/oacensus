@@ -1,0 +1,35 @@
+# Get articles from Pubmed
+- pubmed:
+    search: '"journal article"[Publication Type]'
+    journals : 
+        - "Current Biology : CB"
+        - "Nature Neuroscience" 
+        - "Genes & development"
+        - "Bioinformatics"
+        - "Cell"
+        - "Cell host & microbe"
+        - "Nature genetics"
+        - "Molecular systems biology"
+        - "Nature"
+        - "PLoS neglected tropical diseases"
+        - "PLoS medicine"
+        - "PLoS biology"
+        - "PLoS computational biology"
+        - "PLoS pathogens"
+        - "The Journal of infectious diseases"
+        - "Nature medicine"
+        - "Genome research"
+        - "BMC infectious diseases"
+        - "PLoS genetics"
+        - "BMC public health"
+        - "Nature cell biology"
+        - "The American journal of tropical medicine and hygiene"
+        - "PeerJ"
+        - "SpringerPlus"
+        - "eLife"
+        - "Nature communications"
+        - "Scientific reports"
+        - "PLoS one"
+    start-period : 2014-01
+    end-period : 2014-06
+    ret-max : 1000
