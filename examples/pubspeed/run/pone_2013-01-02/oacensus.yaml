@@ -1,0 +1,5 @@
+
+- pubmed:
+    search: '"PLoS one"[Journal] AND "journal article"[Publication Type]'
+    start-period: 2013-01
+    end-period: 2013-06 

@@ -1,0 +1,5 @@
+
+- pubmed:
+    search: '"PLoS one"[Journal] AND ("2012-01-01"[EDAT] : "2012-12-31"[EDAT]) AND "journal article"[Publication Type]'
+    start-period: 2012-01
+    end-period: 2012-12 

@@ -1,0 +1,5 @@
+
+- pubmed:
+    search: '(("Current Biology : CB"[Journal]) OR ("Nature Neuroscience"[Journal]) OR ("Genes & development"[Journal]) OR ("Bioinformatics"[Journal]) OR ("Cell"[Journal]) OR ("Cell host & microbe"[Journal]) OR ("Nature genetics"[Journal]) OR ("Molecular systems biology"[Journal]) OR ("Nature"[Journal]) OR ("PLoS neglected tropical diseases"[Journal]) OR ("The Journal of infectious diseases"[Journal]) OR ("Nature medicine"[Journal]) OR ("Genome research"[Journal]) OR ("BMC infectious diseases"[Journal]) OR ("PLoS genetics"[Journal]) OR ("BMC public health"[Journal]) OR ("Nature cell biology"[Journal]) OR ("The American journal of tropical medicine and hygiene"[Journal]) OR ("PeerJ"[Journal]) OR ("SpringerPlus"[Journal]) OR ("eLife"[Journal]) OR ("Nature communications"[Journal]) OR ("Scientific reports"[Journal])) AND ("2013-01-01"[EDAT] : "2013-12-31"[EDAT]) AND "journal article"[Publication Type]'
+    start-period: 2013-01
+    end-period: 2013-12 

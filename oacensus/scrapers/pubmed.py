@@ -433,7 +433,7 @@ class Pubmed(NCBIArticles):
                     # Parse date info
                     date_published = None
                     journal_pubdate_entry = journal_entry.find("JournalIssue").find("PubDate")
-					article_date_entry = article_entry.find("ArticleDate")
+                    article_date_entry = article_entry.find("ArticleDate")
 
                     if article_date_entry is not None:
                         date_published = self.parse_date(article_date_entry)
