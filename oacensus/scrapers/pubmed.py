@@ -99,15 +99,6 @@ class NCBI(Scraper):
 
         
         if start_date and end_date:
-            # There is a bug in Pubmed searches that start on Jan 1. As nothing should
-            # be published on Jan 1 we can change the start date to Jan 2.
-            if start_date.month == 1 & start_date.day == 1:
-                start_date = start_date.replace(day=2)
-            if end_date.month == 1 & start_date.day == 1:
-                end_date = end_date.replace(year = end_date.year-1,
-                                                month = 12,
-                                                day=31)
-
             params.update({
                 'datetype' : self.setting('datetype'),
                 'mindate' : start_date.strftime("%Y/%m/%d"),
