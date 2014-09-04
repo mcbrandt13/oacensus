@@ -12,21 +12,18 @@ parser.add_argument('-e', '--end', action="store", required=True, help="end date
 args = parser.parse_args()
 
 date_regex = "[0-9]{4}\-[0-9]{2}\-[0-9]{2}"
-dir = os.getcwd()
 
 if not re.search(date_regex, args.start) or not re.search(date_regex, args.end):
 	print "Start/End date is invalid. Please re-enter with format YYYY-DD-MM (and use the '-')\n"
 	sys.exit
 
-date_term = """'"journal article"[Publication Type]'"""
-#search_term = """'(%s) AND ("%s"[PDAT]: "%s"[PDAT])'""" % (date_term, args.start, args.end) 
-#search_term = "'%s'" % (jrnl_term, date_term)
+search_term = """'"journal article"[Publication Type]'"""
 path = 'reports/' + args.start
 if not os.path.isdir(path):
 	os.makedirs(path)
 
 yelems = (
-			date_term,
+			search_term,
 			args.start[0:7],
 			args.end[0:7]
 		)
